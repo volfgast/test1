@@ -1,0 +1,78 @@
+version: "3.7"
+
+services:
+  hub:
+    image: selenium/hub:3.141.59-20200409
+    hostname: hub
+    networks:
+      docker.dc:
+        aliases:
+          - hub.selenium.docker.dc
+    dns_search:
+      - docker.dc
+      - officekiev.fozzy.lan
+      - fz.fozzy.lan
+      - fozzy.lan
+    # Container environment env.DEPLOY_ENV_VARS
+    environment:
+      - TZ=Europe/Kiev
+      - LANG=en_US.UTF-8
+      - LC_ALL=en_US.UTF-8
+      - LANGUAGE=en_US:en
+      - GRID_BROWSER_TIMEOUT=60
+      - JAVA_OPTS=-Xmx512m
+      - SE_OPTS=-debug -timeout 15 -maxSession 100
+    ports:
+      - "4004:4444"
+
+  chrome:
+    image: selenium/node-chrome-debug:3.141.59-20200409
+    hostname: chrome
+    networks:
+      docker.dc:
+        aliases:
+          - chrome.selenium.docker.dc
+    dns_search:
+      - docker.dc
+      - officekiev.fozzy.lan
+      - fz.fozzy.lan
+      - fozzy.lan
+    # Container environment env.DEPLOY_ENV_VARS
+    environment:
+      - TZ=Europe/Kiev
+      - LANG=en_US.UTF-8
+      - LC_ALL=en_US.UTF-8
+      - LANGUAGE=en_US:en
+      - HUB_HOST=hub
+      - HUB_PORT=4444
+    volumes:
+      - /dev/shm:/dev/shm
+
+  firefox:
+    image: selenium/node-firefox:3.141.59-20200409
+    hostname: firefox
+    networks:
+      docker.dc:
+        aliases:
+          - firefox.selenium.docker.dc
+    dns_search:
+      - docker.dc
+      - officekiev.fozzy.lan
+      - fz.fozzy.lan
+      - fozzy.lan
+    # Container environment env.DEPLOY_ENV_VARS
+    environment:
+      - TZ=Europe/Kiev
+      - LANG=en_US.UTF-8
+      - LC_ALL=en_US.UTF-8
+      - LANGUAGE=en_US:en
+      - HUB_HOST=hub
+      - HUB_PORT=4444
+    volumes:
+      - /dev/shm:/dev/shm
+
+networks:
+  docker.dc:
+    external: true
+    name: opensourcedata
+
