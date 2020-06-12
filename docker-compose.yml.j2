@@ -60,6 +60,7 @@ services:
       - HUB_PORT=4444
     volumes:
       - /dev/shm:/dev/shm
+    entrypoint: bash -c 'SE_OPTS="-host $$HOSTNAME" /opt/bin/entry_point.sh'
     deploy:
       # SWARM deploy mode env.DEPLOY_SWARM_MODE (replicated|global)
       mode: replicated
@@ -96,6 +97,7 @@ services:
       - HUB_PORT=4444
     volumes:
       - /dev/shm:/dev/shm
+    entrypoint: bash -c 'SE_OPTS="-host $$HOSTNAME" /opt/bin/entry_point.sh'
     deploy:
       # SWARM deploy mode env.DEPLOY_SWARM_MODE (replicated|global)
       mode: replicated
