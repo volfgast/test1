@@ -103,7 +103,7 @@ services:
       # SWARM deploy placement env.DEPLOY_SWARM_PLACEMENT [ place1, place2, ... placeX ]
       placement:
         constraints:
-          - node.labels.seleniun == true
+          - node.labels.selenium == true
       restart_policy:
         condition: on-failure
         delay: 5s
