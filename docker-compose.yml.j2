@@ -31,7 +31,7 @@ services:
       # SWARM deploy placement env.DEPLOY_SWARM_PLACEMENT [ place1, place2, ... placeX ]
       placement:
         constraints:
-          - node.labels.worker == true
+          - node.labels.selenium == true
       restart_policy:
         condition: on-failure
         delay: 5s
@@ -67,7 +67,7 @@ services:
       # SWARM deploy placement env.DEPLOY_SWARM_PLACEMENT [ place1, place2, ... placeX ]
       placement:
         constraints:
-          - node.labels.worker == true
+          - node.labels.selenium == true
       restart_policy:
         condition: on-failure
         delay: 5s
@@ -103,7 +103,7 @@ services:
       # SWARM deploy placement env.DEPLOY_SWARM_PLACEMENT [ place1, place2, ... placeX ]
       placement:
         constraints:
-          - node.labels.worker == true
+          - node.labels.seleniun == true
       restart_policy:
         condition: on-failure
         delay: 5s
