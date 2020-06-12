@@ -24,6 +24,19 @@ services:
       - SE_OPTS=-debug -timeout 15 -maxSession 100
     ports:
       - "4004:4444"
+    deploy:
+      # SWARM deploy mode env.DEPLOY_SWARM_MODE (replicated|global)
+      mode: replicated
+      replicas: 1
+      # SWARM deploy placement env.DEPLOY_SWARM_PLACEMENT [ place1, place2, ... placeX ]
+      placement:
+        constraints:
+          - node.labels.worker == true
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
 
   chrome:
     image: selenium/node-chrome-debug:3.141.59-20200409
@@ -47,6 +60,19 @@ services:
       - HUB_PORT=4444
     volumes:
       - /dev/shm:/dev/shm
+    deploy:
+      # SWARM deploy mode env.DEPLOY_SWARM_MODE (replicated|global)
+      mode: replicated
+      replicas: 1
+      # SWARM deploy placement env.DEPLOY_SWARM_PLACEMENT [ place1, place2, ... placeX ]
+      placement:
+        constraints:
+          - node.labels.worker == true
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
 
   firefox:
     image: selenium/node-firefox:3.141.59-20200409
@@ -70,6 +96,19 @@ services:
       - HUB_PORT=4444
     volumes:
       - /dev/shm:/dev/shm
+    deploy:
+      # SWARM deploy mode env.DEPLOY_SWARM_MODE (replicated|global)
+      mode: replicated
+      replicas: 1
+      # SWARM deploy placement env.DEPLOY_SWARM_PLACEMENT [ place1, place2, ... placeX ]
+      placement:
+        constraints:
+          - node.labels.worker == true
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
 
 networks:
   docker.dc:
