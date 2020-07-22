@@ -49,7 +49,7 @@ services:
     networks:
       docker.dc:
         aliases:
-          - chrome.selenium.docker.dc
+          - chrome-n{{ '%02d'|format(node + 1) }}.selenium.docker.dc
     dns_search:
       - docker.dc
       - officekiev.fozzy.lan
