@@ -20,8 +20,12 @@ services:
       - LC_ALL=en_US.UTF-8
       - LANGUAGE=en_US:en
       - GRID_BROWSER_TIMEOUT=60
+      - GRID_MAX_SESSION=100
+      - GRID_TIMEOUT=12000
+      - GRID_NEW_SESSION_WAIT_TIMEOUT=30000
+      - GRID_DEBUG=true
+      - GRID_CLEAN_UP_CYCLE=20000
       - JAVA_OPTS=-Xmx512m
-      - SE_OPTS=-debug -timeout 15 -maxSession 100
     ports:
       - "4004:4444"
     deploy:
@@ -40,7 +44,7 @@ services:
 
   chrome:
     image: selenium/node-chrome-debug:3.141.59-20200409
-    hostname: chrome
+    hostname: "chrome-{{.Node.Hostname}}"
     networks:
       docker.dc:
         aliases:
@@ -56,6 +60,9 @@ services:
       - LANG=en_US.UTF-8
       - LC_ALL=en_US.UTF-8
       - LANGUAGE=en_US:en
+      - NODE_APPLICATION_NAME="chrome-{{.Node.Hostname}}"
+      - NODE_MAX_INSTANCES=10
+      - NODE_MAX_SESSION=10
       - HUB_HOST=hub
       - HUB_PORT=4444
     volumes:
@@ -64,44 +71,7 @@ services:
     deploy:
       # SWARM deploy mode env.DEPLOY_SWARM_MODE (replicated|global)
       mode: replicated
-      replicas: 1
-      # SWARM deploy placement env.DEPLOY_SWARM_PLACEMENT [ place1, place2, ... placeX ]
-      placement:
-        constraints:
-          - node.labels.selenium == true
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
-        window: 120s
-
-  firefox:
-    image: selenium/node-firefox:3.141.59-20200409
-    hostname: firefox
-    networks:
-      docker.dc:
-        aliases:
-          - firefox.selenium.docker.dc
-    dns_search:
-      - docker.dc
-      - officekiev.fozzy.lan
-      - fz.fozzy.lan
-      - fozzy.lan
-    # Container environment env.DEPLOY_ENV_VARS
-    environment:
-      - TZ=Europe/Kiev
-      - LANG=en_US.UTF-8
-      - LC_ALL=en_US.UTF-8
-      - LANGUAGE=en_US:en
-      - HUB_HOST=hub
-      - HUB_PORT=4444
-    volumes:
-      - /dev/shm:/dev/shm
-    entrypoint: bash -c 'SE_OPTS="-host $$HOSTNAME" /opt/bin/entry_point.sh'
-    deploy:
-      # SWARM deploy mode env.DEPLOY_SWARM_MODE (replicated|global)
-      mode: replicated
-      replicas: 1
+      replicas: 2
       # SWARM deploy placement env.DEPLOY_SWARM_PLACEMENT [ place1, place2, ... placeX ]
       placement:
         constraints:
