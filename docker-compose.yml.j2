@@ -1,8 +1,8 @@
 version: "3.7"
-
+{%- set selenium = namespace(version=environ('SELENIUM_VERSION')|default('latest',true), nodes=environ('SELENIUM_NODES')|default('1',true)) %}
 services:
   hub:
-    image: selenium/hub:3.141.59-20200409
+    image: selenium/hub:{{ selenium.version }}
     hostname: hub
     networks:
       docker.dc:
@@ -42,9 +42,10 @@ services:
         max_attempts: 3
         window: 120s
 
-  chrome:
-    image: selenium/node-chrome-debug:3.141.59-20200409
-    hostname: "chrome-{{.Node.Hostname}}"
+{%- for node in range(selenium.nodes|int) %}
+  chrome-n{{ '%02d'|format(node + 1) }}:
+    image: selenium/node-chrome:{{ selenium.version }}
+    hostname: chrome-n{{ '%02d'|format(node + 1) }}
     networks:
       docker.dc:
         aliases:
@@ -60,7 +61,7 @@ services:
       - LANG=en_US.UTF-8
       - LC_ALL=en_US.UTF-8
       - LANGUAGE=en_US:en
-      - NODE_APPLICATION_NAME="chrome-{{.Node.Hostname}}"
+      - NODE_APPLICATION_NAME=chrome-n{{ '%02d'|format(node + 1) }}
       - NODE_MAX_INSTANCES=10
       - NODE_MAX_SESSION=10
       - HUB_HOST=hub
@@ -71,7 +72,7 @@ services:
     deploy:
       # SWARM deploy mode env.DEPLOY_SWARM_MODE (replicated|global)
       mode: replicated
-      replicas: 2
+      replicas: 1
       # SWARM deploy placement env.DEPLOY_SWARM_PLACEMENT [ place1, place2, ... placeX ]
       placement:
         constraints:
@@ -81,6 +82,7 @@ services:
         delay: 5s
         max_attempts: 3
         window: 120s
+{%- endfor %}
 
 networks:
   docker.dc:
