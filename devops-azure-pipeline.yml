@@ -1,8 +1,0 @@
-- task: tfs.fozzy.lan-mirror-github.com-docker.selenium
-  displayName: 'Mirror Git Repository'
-  inputs:
-    sourceGitRepositoryUri: ''
-    sourceVerifySSLCertificate: false
-    destinationGitRepositoryUri: 'https://'
-    destinationGitRepositoryPersonalAccessToken: '$(destVar)'
-
