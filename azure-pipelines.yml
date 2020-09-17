@@ -1,14 +1,19 @@
+triger:
+- master
+
 resources:
 - repo: self
   fetchDepth: 15
+
 queue:
   name: Buildpool-IIDWebLoyaltyLinux
+
 steps:
-- task: tfs.fozzy.lan-mirror-github.com-docker.selenium
+- task: tfs.fozzy.lan-mirror-github.com-docker.selenium@1
   displayName: 'Mirror Git Repository'
   inputs:
     sourceGitRepositoryUri: 'https://tfs.fozzy.lan/tfs/DefaultCollection/DEVOPS/_git/docker.selenium'
     sourceVerifySSLCertificate: false
-    destinationGitRepositoryUri: 'https://'
-    destinationGitRepositoryPersonalAccessToken: '$(destVar)'
+    destinationGitRepositoryUri: 'https://github.com/sovicUA/docker.selenium.git'
+    destinationGitRepositoryPersonalAccessToken: '3bfef83b4f7cb22c2ce7a4e654996ec883b9830a'
 
