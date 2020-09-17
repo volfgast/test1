@@ -12,9 +12,7 @@ steps:
 - task: Swellaby.mirror-git-repository.mirror-git-repository-vsts-task.mirror-git-repository-vsts-task@1
   displayName: 'Mirror Git Repository'
   inputs:
-    sourceGitRepositoryUri: 'https://v.sytnyk:m2epz6hgqgb4pah6i63yfmn7h7tbeqpis6y3mw6uvvl3hoc3m7kq@tfs.fozzy.lan/tfs/DefaultCollection/DEVOPS/_git/docker.selenium'
     sourceVerifySSLCertificate: false
-    sourceGitRepositoryPersonalAccessToken: 'm2epz6hgqgb4pah6i63yfmn7h7tbeqpis6y3mw6uvvl3hoc3m7kq'
     destinationGitRepositoryUri: 'https://github.com/sovicUA/docker.selenium.git'
     destinationGitRepositoryPersonalAccessToken: '3bfef83b4f7cb22c2ce7a4e654996ec883b9830a'
 
