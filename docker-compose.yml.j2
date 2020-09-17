@@ -1,5 +1,5 @@
 version: "3.7"
-{%- set selenium = namespace(version=environ('SELENIUM_VERSION')|default('latest',true), nodes=environ('SELENIUM_NODES')|default('1',true)) %}
+{%- set selenium = namespace(version=environ('SELENIUM_VERSION')|default('latest',true), nodes=environ('SELENIUM_NODES')|default('1',true)), healthcheck=environ('SELENIUM_HEALTCHECK') %}
 services:
   hub:
     image: selenium/hub:{{ selenium.version }}
@@ -41,6 +41,13 @@ services:
         delay: 5s
         max_attempts: 3
         window: 120s
+{%- if selenium.healthcheck is defined and selenium.healthcheck|length%}
+    healthcheck:
+      test: {{ selenium.healthcheck }}
+      interval: 10s
+      timeout: 60s
+      retries: 3
+{%- endif %}
 
 {%- for node in range(selenium.nodes|int) %}
   chrome-n{{ '%02d'|format(node + 1) }}:
@@ -83,6 +90,13 @@ services:
         delay: 5s
         max_attempts: 3
         window: 120s
+{%- if selenium.healthcheck is defined and selenium.healthcheck|length%}
+    healthcheck:
+      test: {{ selenium.healthcheck }}
+      interval: 10s
+      timeout: 60s
+      retries: 3
+{%- endif %}
 {%- endfor %}
 
 networks:
