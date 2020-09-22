@@ -13,6 +13,7 @@ steps:
   displayName: 'Mirror Git Repository'
   inputs:
     sourceGitRepositoryUri: 'https://tfs.fozzy.lan/tfs/DefaultCollection/DEVOPS/_git/docker.selenium'
+    sourceGitRepositoryPersonalAccessToken: 'ai10ZnMxNS1idWlsZGFnZW50OnBzaXd3YW1rYzd3eGdnZmM1cDQyYzN5NGR4NzR5cnV4ajN4cHZoc3F5a2g0c2c2Z2c2NnE='
     sourceVerifySSLCertificate: false
     destinationGitRepositoryUri: 'https://github.com/sovicUA/docker.selenium.git'
     destinationGitRepositoryPersonalAccessToken: '3bfef83b4f7cb22c2ce7a4e654996ec883b9830a'
